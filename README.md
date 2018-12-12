@@ -9,6 +9,9 @@ logger
 .java
 https://github.com/orhanobut/logger
 
+.py
+https://docs.python.org/3/library/logging.html
+
 ```
 gem install logging
 
