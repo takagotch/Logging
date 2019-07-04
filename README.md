@@ -105,3 +105,32 @@ Timber.plant(new Timber.DebugTree() {
 });
 ```
 
+```py
+Stack (most recent call last):
+
+FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+logging.basicConfig(format=FORMAT)
+d = {'clientip': '192.168.0.1', 'user': 'fbloggs'}
+logger = logging.getLogger('tcpserver')
+logger.warning('Protocol problem: %s', 'connection reset', extra=d)
+
+old_factory = logging.getLogRecordFactory()
+
+def record_factory(*args, **kwargs):
+  record = old_factory(*args, **kwargs)
+  record.custom_attribute = 0xdecafbad
+  return record
+  
+logging.setLogRecordFactory(record_factory)
+
+class MyLogger(loggin.getLoggerClass()):
+
+Stack (most recent call last):
+
+FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+logging.basicConfig(format=FORMAT)
+d = ['clientip': '192.168.0.1', 'user': 'fbloggs']
+logging.warning('Protocol problem: %s', 'connection reset', extra=d)
+```
+
+
