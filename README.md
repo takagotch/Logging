@@ -51,12 +51,57 @@ class SecondClass
     @logger.debug "another method was called on #{self.inpsect}"
   end
 end
-
-
-
-
 ```
 
-```
+```java
+implementation 'com.orhanobut:logger:2.2.0'
+Logger.addLogAdapter(new AndroidLogAdapter());
+Logger.d("hello");
+Logger.d("debug");
+Logger.e("error");
+Logger.w("warning");
+Logger.v("verbose");
+Logger.i("information");
+Logger.wtf("What a Terrible Failure");
+
+Logger.d("hello %s", "world");
+
+Logger.d(MAP);
+Logger.d(SET);
+Logger.d(LIST);
+Logger.d(ARRAY);
+
+Logger.json(JSON_CONTENT);
+Logger.xml(XML_CONTENT);
+
+FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+  .showThreadInfo(false)
+  .methodCount(0)
+  .methodOffset(7)
+  .logStrategy(customLog)
+  .tag("My custom tag")
+  .build();
+
+Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
+
+Logger.addLogAdapter(new AndroidLogAdapter() {
+  @Override pubilc boolean isLoggable(int priority, String tag) {
+    return BuildConfig.DEBUG;
+  }
+});
+
+Logger.addLogAdapter(new DiskLogAdapter());
+
+FormatStrategy formatStrategy = CsvFormatStrategy.newBuilder()
+  .tag("custom")
+  .build();
+  
+Logger.addLogAdapter(new DiskLogAdapter(formatStrategy));
+
+Timber.plant(new Timber.DebugTree() {
+  @Override protected void log(int priority, String tag, String message, Throwable t) {
+    Logger.log(priority, tag, message, t);
+  }
+});
 ```
 
